@@ -2,8 +2,8 @@ import numpy as np
 import sys
 
 m = np.array([
-    [1.,-1.,3.],
-    [2.,1.,2.],
+    [0.,-1.,3.],
+    [0.,0.,2.],
     [-2.,-2.,1.]
 ])
 
@@ -12,7 +12,14 @@ def inverse(a):
 
     for i in range(3):
         if a[i][i] == 0.0:
-            sys.exit('Divide by zero detected!')
+            for g in range(i, 3):
+                if a[g][i] != 0:
+                    a[[g, i]] = a[[i, g]]
+                    x[[g, i]] = x[[i, g]]
+
+            if a[i][i] == 0.0:
+                sys.exit('Singular!')
+                return
 
         for j in range(3):
             if i != j:
